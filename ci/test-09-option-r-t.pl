@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 
-use Test::Command tests => 18;
+use Test::Command tests => 23;
+use Test::More;
 
 #  -R         random bytes
 #  -r n       number of retries (default 3)
@@ -17,12 +18,14 @@ $cmd->stdout_is_eq("");
 $cmd->stderr_like(qr{127\.0\.0\.1 : xmt/rcv/%loss = 3/3/0%.*});
 }
 
-# fping6 -R
-{
-my $cmd = Test::Command->new(cmd => "fping6 -q -R -c3 -p100 ::1");
-$cmd->exit_is_num(0);
-$cmd->stdout_is_eq("");
-$cmd->stderr_like(qr{::1 : xmt/rcv/%loss = 3/3/0%.*});
+SKIP: {
+    if(system("/sbin/ifconfig | grep inet6") != 0) {
+        skip 'No IPv6 on this host', 3;
+    }
+    my $cmd = Test::Command->new(cmd => "fping -q -R -c3 -p100 ::1");
+    $cmd->exit_is_num(0);
+    $cmd->stdout_is_eq("");
+    $cmd->stderr_like(qr{::1 : xmt/rcv/%loss = 3/3/0%.*});
 }
 
 # fping -r tested in test-4-options-a-b.pl
@@ -81,12 +84,29 @@ $cmd->stdout_is_eq("127.0.0.1 is alive\n");
 $cmd->stderr_is_eq("");
 }
 
-# fping6 -S
-{
-my $cmd = Test::Command->new(cmd => "fping6 -S ::1 ::1");
-$cmd->exit_is_num(0);
-$cmd->stdout_is_eq("::1 is alive\n");
-$cmd->stderr_is_eq("");
+# fping -S
+SKIP: {
+    if(system("/sbin/ifconfig | grep inet6") != 0) {
+        skip 'No IPv6 on this host', 3;
+    }
+    my $cmd = Test::Command->new(cmd => "fping -S ::1 ::1");
+    $cmd->exit_is_num(0);
+    $cmd->stdout_is_eq("::1 is alive\n");
+    $cmd->stderr_is_eq("");
 }
 
-# fping -t tested in test-4-options-a-b.pl
+# fping -S
+{
+my $cmd = Test::Command->new(cmd => "fping -S bla");
+$cmd->exit_is_num(1);
+$cmd->stdout_is_eq("");
+$cmd->stderr_is_eq("fping: can't parse source address: bla\n");
+}
+
+# (note: fping -t also tested in test-4-options-a-b.pl)
+
+{
+my $cmd = Test::Command->new(cmd => "fping -c 2 -p 100 -t 200 127.0.0.1");
+$cmd->exit_is_num(0);
+$cmd->stderr_like(qr{^fping: warning: timeout \(-t\) value larger than period \(-p\) produces unexpected results\n.*});
+}

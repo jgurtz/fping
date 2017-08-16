@@ -1,3 +1,36 @@
+2017-02-09  David Schweikert  <david@schweikert.ch>
+  * Version 3.16
+  * (feature) Support kernel-timestamping of received packets (#46)
+  * (feature) Simplify restrictions: only -i >= 1 and -p >= 10 are enforced now
+  * (bugfix) Fix option -m to return all IPs of a hostname
+  * (bugfix) Fix option -H (ttl) for IPv6
+  * (bugfix) Fix option -M (don't fragment) for IPv6
+  * (bugfix) Fix option -O (ToS) for IPv6
+  * (bugfix) Fix compatibility issue with AIX (#69, @blentzgh)
+  * (bugfix) Fix option -q not suppressing some ICMP error messages (#83)
+  * (bugfix) Fix option -M expecting an argument, when it shouldn't
+  * (bugfix) Fix minor issues found by Coverity Scan
+
+2017-01-11  David Schweikert  <david@schweikert.ch>
+  * Version 3.15
+  * (bugfix) Fix compiler errors on platforms other than Linux (related
+             to the new -M option, #109)
+  * Test suite fixes for macOS
+
+2017-01-10  David Schweikert  <david@schweikert.ch>
+  * Version 3.14
+  * (feature) Ignore network and broadcast for cidrs /31 and /32 (#102, Martin Topholm)
+  * (feature) New option '-M' to set the "Don't Fragment" flag (#91, Don Bowman)
+  * (feature) New option '-N' to output statistics for netdata (see: http://my-netdata.io/, #105, Costa Tsaousis)
+  * (feature) New option '-o' to calculate total outage time (#90, @jgerbeck)
+  * (bugfix) Exit code should be 2 when the hostname can't be resolved
+            (fixes #98, reported by @green-fox)
+  * (bugfix)  Fix issue compliling on RHEL/Centos 7 (#95, @jbackman)
+  * (bugfix) Lower -i limit to 1 instead of 10
+  * (bugfix) Improve interval preciseness of -Q reporting
+  * (bugfix) Fix occasional false positive in -Q reporting (#97)
+  * (bugfix) Solaris 10 portability fix (#107, Peter Bray)
+
 2015-10-21  David Schweikert  <david@schweikert.ch>
   * Version 3.13
   * (bugfix) Fix ICMP errors sometimes causing crashes with fping >= 3.11
@@ -121,7 +154,7 @@
   * Removed unused variables from code
   * updated to current autoconf standards
   * Merged Debian changes (see below)
-  
+
 ----------------------------------------------------------------------
 
 fping (2.4b2-to-ipv6-16.1) unstable; urgency=low
@@ -130,7 +163,7 @@ fping (2.4b2-to-ipv6-16.1) unstable; urgency=low
   * Fixes FTBFS on kfreebsd (Closes: #555398)
   * Fixes typo "Paramter" in binary
 
- -- Axel Beckert <abe@deuxchevaux.org>  Sat, 23 Jan 2010 16:22:02 +0100 
+ -- Axel Beckert <abe@deuxchevaux.org>  Sat, 23 Jan 2010 16:22:02 +0100
 
 fping (2.4b2-to-ipv6-16) unstable; urgency=low
 
@@ -285,45 +318,45 @@ Jeroen Massar
 - Revision v2.4b2-to-IPv6
    - Added IPv6 support.
    - Added -I option for selecting source IPv4/IPv6 address.
-   - Makefile.in now generates a Makefile which will build both 
+   - Makefile.in now generates a Makefile which will build both
      fping (IPv4) and fping6 (IPv6). Thus it makes an fping (IPv4 only)
      and an fping6 (IPv6 only).
    - num_unreachable was counted twice when a sendto() generated errors.
-   - See http://unfix.org/projects/ipv6/ 
+   - See http://unfix.org/projects/ipv6/
 
 Tue Mar 14 2001
 Jason Ewasiuk <jasone@remote.net>
 - Revision v2.4b1
-	- added -g option for generating IPs from a start to an end value
-		- two available options, generate IPs from start IP to end IP
-		  or from a passed netmask, such as 192.168.1.0/24
+        - added -g option for generating IPs from a start to an end value
+                - two available options, generate IPs from start IP to end IP
+                  or from a passed netmask, such as 192.168.1.0/24
 
 Thu Feb 15 2001
 Jason Ewasiuk <jasone@remote.net>
 - Revision v2.3b1
-	- formatting changes to code layout (fping.c)
-	NOTE:  Best viewed with a tab stop of 4
-	- merged in changes from Debian c/o Herbert Xu
-	<herbert@gondor.apana.org.au>
-		- Compilation fix on alphas with glibc
-		- Alignment issues (note from JE:  in wait_for_reply())
-		- A typo with the time specified on the command line
-		(note from JE:  bug was using 10 instead of 100)
-		- Drop privileges after obtaining socket
-		(note from JE:  might be moot, since prog exits if
-		user is not root)
-	- touched all files in package to this date
-	- couple new #ifdefs added for future WIN32 support
-	(Haven't got to adding this yet, will take a lot of rewriting.)
+        - formatting changes to code layout (fping.c)
+        NOTE:  Best viewed with a tab stop of 4
+        - merged in changes from Debian c/o Herbert Xu
+        <herbert@gondor.apana.org.au>
+                - Compilation fix on alphas with glibc
+                - Alignment issues (note from JE:  in wait_for_reply())
+                - A typo with the time specified on the command line
+                (note from JE:  bug was using 10 instead of 100)
+                - Drop privileges after obtaining socket
+                (note from JE:  might be moot, since prog exits if
+                user is not root)
+        - touched all files in package to this date
+        - couple new #ifdefs added for future WIN32 support
+        (Haven't got to adding this yet, will take a lot of rewriting.)
 
 Fri Dec  8 10:33:13 2000  Roland Schemers  <schemers@stanford.edu>
 
-	* stop using sys_errlist and start using strerror
-	fixed bug in output of -C
+        * stop using sys_errlist and start using strerror
+        fixed bug in output of -C
 
 Wed Jan  8 11:18:37 1997  Roland Schemers  <schemers@stanford.edu>
 
-	* Created ChangeLog file. What follows was from the CHANGES file.
+        * Created ChangeLog file. What follows was from the CHANGES file.
 
 * Revision 2.0  1994/10/31 21:26:23 morgan
 
@@ -361,7 +394,7 @@ Wed Jan  8 11:18:37 1997  Roland Schemers  <schemers@stanford.edu>
 
   Took out setuid(getuid()) and used access() system call to
   check for access to the file specified with "-f".
- 
+
 * Revision 1.21  1993/07/20  18:08:19  schemers
 
   commented out the test to make sure the ping packet came from the
@@ -409,7 +442,7 @@ modified the -s option to include min, max, and average round-trip times,
 and over all elapsed time.
 
 Modified action taken when a error is returned from sendto. The action
-taken now considers the host unreachable and prints the hostname 
+taken now considers the host unreachable and prints the hostname
 followed by the errno message. The program will not exit and will continue
 to try other hosts.
 
@@ -453,7 +486,7 @@ Changed usage to and stats to print to stderr instead of stdout.
 
 RCS header info from original fping.c package (no longer required)
 
-/* 
+/*
  ***************************************************
  *
  * Standard RCS Header information (see co(1))

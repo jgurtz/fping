@@ -20,7 +20,7 @@
 /* constants */
 
 #ifndef DEFAULT_INTERVAL
-#define DEFAULT_INTERVAL 25        /* default time between packets (msec) */
+#define DEFAULT_INTERVAL 10        /* default time between packets (msec) */
 #endif
 
 #ifndef DEFAULT_PERHOST_INTERVAL      /* default time between packets */
@@ -29,6 +29,7 @@
 
 #ifndef DEFAULT_TIMEOUT
 #define DEFAULT_TIMEOUT 500       /* individual host timeouts */
+#define AUTOTUNE_TIMEOUT_MAX  2000
 #endif
 
 

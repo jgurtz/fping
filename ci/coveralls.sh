@@ -2,7 +2,7 @@
 
 set -x
 
-sudo pip install cpp-coveralls --use-mirrors
+sudo -H pip install cpp-coveralls
 
 cd src
 
@@ -10,4 +10,4 @@ ls -l
 
 gcov *.o
 cd ..
-coveralls --exclude ci --no-gcov
+coveralls --exclude ci --exclude src/optparse.c --no-gcov

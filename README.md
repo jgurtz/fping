@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/schweikert/fping.svg?branch=develop)](https://travis-ci.org/schweikert/fping)
 [![Coverage Status](https://coveralls.io/repos/schweikert/fping/badge.svg?branch=develop&service=github)](https://coveralls.io/github/schweikert/fping?branch=develop)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/11559/badge.svg?flat=1")](https://scan.coverity.com/projects/schweikert-fping)
 
-# fping 3
+# fping
 
 fping is a program to send ICMP echo probes to network hosts, similar to ping,
 but much better performing when pinging multiple hosts. fping has a long long
@@ -21,6 +22,8 @@ _Mailing-list_:
 
 If you want to install fping from source, proceed as follows:
 
+0. Run ./autogen.sh
+   (only if you got the source from github)
 1. Run ./configure with the correct arguments
    (see: ./configure --help)
 2. Run make; make install
@@ -29,16 +32,9 @@ If you want to install fping from source, proceed as follows:
 4. Have a look at the fping(8) manual for usage help
    (fping -h will also give a minimal help output)
 
+## Usage
 
-## IPv6 support
-You can can compile fping with support for IPv6 addresses. A separate binary
-is used for that, called fping6. To build it, use ./configure --enable-ipv6
-(possibly combined with --enable-ipv4 to also build fping for IPv4). E.g.:
-
-    # ./configure --prefix=/usr/local --enable-ipv4 --enable-ipv6
-    # make
-    # make install
-    # sudo setcap cap_net_raw+ep /usr/local/bin/fping*
+See: [fping man-page](doc/fping.pod)
 
 ## Credits
 Original author:  Roland Schemers (schemers@stanford.edu)
